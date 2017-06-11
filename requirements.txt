@@ -1,0 +1,4 @@
+P and Q must have 1536 bits
+g = n + 1
+lambda = phi(n)
+mi = phi(n)^(-1)
