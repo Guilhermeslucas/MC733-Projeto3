@@ -19,8 +19,8 @@ void generate_keys() {
     mpz_t p, q;
     gmp_rand_state_t state;
 
-    mpz_init(p);
-    mpz_init(q);
+    mpz_init2(p, PRIME_SIZE);
+    mpz_init2(q, PRIME_SIZE);
 
     // Linux syscall to get random bytes
     if (getrandom(seed, sizeof(unsigned long int), GND_NONBLOCK) == -1) {
@@ -33,18 +33,20 @@ void generate_keys() {
     // Generating "p"
     do {
         mpz_urandomb(p, state, PRIME_SIZE);
+        mpz_setbit(p, PRIME_SIZE - 1);
         // TODO -> Test if it is faster to check first if p is even and increment it by 1, to then call "mpz_mod_prime_p"
         if (mpz_prob_prime_p(p, 31) == 0) {  // Certainly not prime
             mpz_nextprime(p, p);  // TODO -> Check if I can call mpz_nextprime this way	
             // mpz_nextprime could generate a prime greather than 2^PRIME_SIZE - 1, that's why we don't "break"
         } else {  
-            break;
+            break; 
         }
-    } while (mpz_cmp(p, 2^PRIME_SIZE - 1) >= 0);
+    } while (mpz_cmp(p, 2^PRIME_SIZE - 1) > 0);
     
     // Generating "q"
     do {
         mpz_urandomb(q, state, PRIME_SIZE);
+        mpz_setbit(q, PRIME_SIZE - 1);
         // TODO -> Test if it is faster to check first if p is even and increment it by 1, to then call "mpz_mod_prime_p"
         if (mpz_prob_prime_p(q, 31) == 0) {  // Certainly not prime
             mpz_nextprime(q, q);  // TODO -> Check if I can call mpz_nextprime this way	
@@ -52,5 +54,5 @@ void generate_keys() {
         } else {  
             break;
         }
-    } while (mpz_cmp(q, 2^PRIME_SIZE - 1) >= 0);
+    } while (mpz_cmp(q, 2^PRIME_SIZE - 1) > 0);
 }
