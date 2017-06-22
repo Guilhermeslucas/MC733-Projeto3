@@ -1,65 +1,85 @@
-#include <sys/random.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <linux/random.h>
 #include <gmp.h>
 
 #define PRIME_SIZE 1536  // bits
 
+void generate_keys();
 
 int main(int argc, char *argv[]) {
-	// TODO -> Tratar entrada
+    // TODO -> Tratar entrada
 	
-	// if option == generate keys
-	generate_keys();	
+    // if option == generate keys
+    generate_keys();
+    return 0;
 }
 
 
 // Generate a public/private key-pair
 // TODO -> p and q generation can be made in parallel
 void generate_keys() {
+    int file;
     unsigned long int seed;
-    mpz_t n, p, q, g, lambda, mi;
-    gmp_rand_state_t state;
-
+    mpz_t n, p, q, g, lambda, mi, max_num;
+    gmp_randstate_t state;
+    
+    mpz_init(n);
+    mpz_init(g);
+    mpz_init(lambda);
+    mpz_init(mi);
     mpz_init2(p, PRIME_SIZE+1);
     mpz_init2(q, PRIME_SIZE+1);
+    mpz_init(max_num);
+    mpz_ui_pow_ui(max_num, 2, 1536);
+    mpz_sub_ui(max_num, max_num, 1);
 
-    // Linux syscall to get random bytes
-    if (getrandom(seed, sizeof(unsigned long int), GND_NONBLOCK) == -1) {
-	    // Error
+    file = open("/dev/urandom", O_RDONLY);
+    if (file == -1) {
+        perror("Failed to open \"/dev/urandom\"");
+        exit(1);
     }
-	
-    gmp_randseed_ui(state, seed);
-    gmp_randinit_default(state);
+    
+    if (read(file, &seed, sizeof(unsigned long int)) == -1) {
+        perror("Failed to read random bytes");
+        exit(1);
+    }
 
+    close(file);
+    
+    gmp_randinit_default(state);
+    gmp_randseed_ui(state, seed);
+    
     // Generating "p"
     do {
         mpz_urandomb(p, state, PRIME_SIZE);
-        mpz_setbit(p, PRIME_SIZE - 2);
-        // TODO -> Test if it is faster to check first if p is even and increment it by 1, to then call "mpz_mod_prime_p"
+        mpz_setbit(p, PRIME_SIZE - 1); // TODO -> Checar significancia dos bits
+        mpz_setbit(p, 0);
         if (mpz_probab_prime_p(p, 31) == 0) {  // Certainly not prime
             mpz_nextprime(p, p);  // TODO -> Check if I can call mpz_nextprime this way	
             // mpz_nextprime could generate a prime greather than 2^PRIME_SIZE - 1, that's why we don't "break"
         } else {  
             break; 
         }
-    } while (mpz_cmp(p, 2^PRIME_SIZE - 1) > 0);
-
+    } while (mpz_cmp(p, max_num) > 0);
+    
     // Generating "q"
     do {
         mpz_urandomb(q, state, PRIME_SIZE);
-        mpz_setbit(q, PRIME_SIZE - 2);
-        // TODO -> Test if it is faster to check first if p is even and increment it by 1, to then call "mpz_mod_prime_p"
+        mpz_setbit(q, PRIME_SIZE - 1);
         if (mpz_probab_prime_p(q, 31) == 0) {  // Certainly not prime
             mpz_nextprime(q, q);  // TODO -> Check if I can call mpz_nextprime this way	
             // mpz_nextprime could generate a prime greather than 2^PRIME_SIZE - 1, that's why we don't "break"
         } else {  
             break;
         }
-    } while (mpz_cmp(q, 2^PRIME_SIZE - 1) > 0);
-
-	mpz_mul(n, p, q);
-	mpz_add_ui(g, n, 1);
-	mpz_mul(lambda, p-1, q-1);
-    mpz_mul(mi, lambda^-1); // TODO -> Find GMP function to do this
-
+    } while (mpz_cmp(q, max_num) > 0);
+    
+    mpz_mul(n, p, q);
+    mpz_add_ui(g, n, 1);
+    mpz_mul(lambda, p-1, q-1);
+    mpz_invert(mi, lambda, n);
 }
 
