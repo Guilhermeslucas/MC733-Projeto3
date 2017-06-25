@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <linux/random.h>
 #include <gmp.h>
 
 #define PRIME_SIZE 1536  // bits
@@ -56,7 +55,6 @@ void generate_keys() {
     do {
         mpz_urandomb(p, state, PRIME_SIZE);
         mpz_setbit(p, PRIME_SIZE - 1); // TODO -> Checar significancia dos bits
-        mpz_setbit(p, 0);
         if (mpz_probab_prime_p(p, 31) == 0) {  // Certainly not prime
             mpz_nextprime(p, p);  // TODO -> Check if I can call mpz_nextprime this way	
             // mpz_nextprime could generate a prime greather than 2^PRIME_SIZE - 1, that's why we don't "break"
@@ -76,10 +74,13 @@ void generate_keys() {
             break;
         }
     } while (mpz_cmp(q, max_num) > 0);
-    
+
     mpz_mul(n, p, q);
     mpz_add_ui(g, n, 1);
-    mpz_mul(lambda, p-1, q-1);
+    mpz_sub_ui(p, p, 1);
+    mpz_sub_ui(q, q, 1);
+    mpz_mul(lambda, p, q);
     mpz_invert(mi, lambda, n);
+    
 }
 
