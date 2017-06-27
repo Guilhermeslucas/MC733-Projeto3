@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <gmp.h>
+#include <string.h>
 
 #define PRIME_SIZE 1536  // bits
 
@@ -17,17 +18,19 @@ struct key_pair {
 };
 
 void generate_keys(struct key_pair *kp);
-void encrypt(char *buf, int buf_size, struct key_pair *kp);
+void encrypt(char *buf, int buf_size, struct key_pair *kp, mpz_t *c);
 void encrypt_block(mpz_t m, struct key_pair *kp, gmp_randstate_t state, mpz_t *c);
+void decrypt(mpz_t *c, struct key_pair *kp);
 
 int main(int argc, char *argv[]) {
     // TODO -> Tratar entrada
-    char *a = "Vitor";
     struct key_pair kp;
-	
+    mpz_t c;
+    printf("%s\n", argv[1]);
     // if option == generate keys
     generate_keys(&kp);
-    encrypt(a, 5, &kp);
+    encrypt(argv[1], strlen(argv[1]), &kp, &c);
+    decrypt(&c, &kp);
     return 0;
 }
 
@@ -37,7 +40,7 @@ int main(int argc, char *argv[]) {
 void generate_keys(struct key_pair *kp) {
     int file;
     unsigned long int seed;
-    mpz_t n, p, q, max_num;
+    mpz_t p, q, max_num;
     gmp_randstate_t state;
     
     mpz_init(kp->n);
@@ -94,22 +97,20 @@ void generate_keys(struct key_pair *kp) {
     } while (mpz_cmp(q, max_num) > 0);
 
     mpz_mul(kp->n, p, q);
-    mpz_add_ui(kp->g, n, 1);
+    mpz_add_ui(kp->g, kp->n, 1);
+
     mpz_sub_ui(p, p, 1);
     mpz_sub_ui(q, q, 1);
     mpz_mul(kp->lambda, p, q);
-    mpz_invert(kp->mi, kp->lambda, n);
-    
+
+    mpz_invert(kp->mi, kp->lambda, kp->n);
 }
 
-void encrypt(char *buf, int buf_size, struct key_pair *kp) {
-    int file, i;
-    unsigned long int seed,  n_size, blocks;
-    mpz_t m, c;
+void encrypt(char *buf, int buf_size, struct key_pair *kp, mpz_t *c) {
+    int file;
+    unsigned long int seed;
+    mpz_t m;
     gmp_randstate_t state;
-
-    n_size = mpz_sizeinbase(kp->n, 2);
-    blocks = n_size/8;
     
     file = open("/dev/urandom", O_RDONLY);
     if (file == -1) {
@@ -126,31 +127,29 @@ void encrypt(char *buf, int buf_size, struct key_pair *kp) {
     
     gmp_randinit_default(state);
     gmp_randseed_ui(state, seed);
-
-    i = 0;
-    while(buf_size >= blocks) {
-        // IMPORTANT!!! -> mpz_import discards leading zeroes! In decryption, must check for exact blocks. If a partial block is present, add leading zeroes to it! 
-        mpz_import(m, blocks, 1, sizeof(buf[0]), 0, 0, &buf[i]);
-        encrypt_block(m, kp, state, &c);
-        i += blocks;
-        buf_size -= blocks;
-    }
-
-    if (buf_size > 0) {
-        mpz_import(m, buf_size, 1, sizeof(buf[0]), 0, 0, &buf[i]);
-        encrypt_block(m, kp, state, &c);
-    }
     
-    mpz_out_str(stdout, 2, m);
+    mpz_init(m);
+    mpz_import(m, buf_size, 1, sizeof(buf[0]), 0, 0, buf);
+   
+    if (mpz_cmp(m, kp->n) > 0) { // TODO -> Check if it must be m < n or m <= n
+        perror("m must be smaller than n");
+        exit(1);
+    }
+    printf("Message: ");
+    mpz_out_str(stdout, 16, m);
     printf("\n\n");
 
-    mpz_out_str(stdout, 2, c);
+    encrypt_block(m, kp, state, c);
+
+    printf("Encrypted messaged: ");
+    mpz_out_str(stdout, 16, *c);
     printf("\n\n");
 }
 
 void encrypt_block(mpz_t m, struct key_pair *kp, gmp_randstate_t state, mpz_t *c) {
     mpz_t r, n_square, e1, e2, e3;
-    
+   
+    mpz_init(*c);
     mpz_init(r);
     mpz_init(e1);
     mpz_init(e2);
@@ -165,39 +164,38 @@ void encrypt_block(mpz_t m, struct key_pair *kp, gmp_randstate_t state, mpz_t *c
     mpz_mul(e3, e1, e2);
     mpz_mod(*c, e3, n_square);
 }
-/*
-void decrypt(mpz_t c, struct key_pair *kp) {
-    int i;
-    unsigned long int n_size, blocks;
-    mpz_t m, n_square, d1, d2;
-    
-    n_size = mpz_sizeinbase(kp->n, 2);
-    blocks = n_size/8;
-    
-    /*i = 0;
-    while(buf_size >= blocks) {
-        // IMPORTANT!!! -> mpz_import discards leading zeroes! In decryption, must check for exact blocks. If a partial block is present, add leading zeroes to it! 
-        mpz_import(m, blocks, 1, sizeof(buf[0]), 0, 0, &buf[i]);
-        i += blocks;
-        buf_size -= blocks;
-    }
 
-    if (buf_size > 0) {
-        mpz_import(m, buf_size, 1, sizeof(buf[0]), 0, 0, &buf[i]);
-    }
+void decrypt(mpz_t *c, struct key_pair *kp) {
+    mpz_t n_square, d1;
+ 
+    /*
+    xp = x mod p
+    xq = x mod q
+
+    yp = xp^(dp) mod p
+    yq = xq^(dq) mod q
+
+    dp = d mod (p-1)
+    dq = d mod (q-1)
+
+    y = q*cp*yp + p*cq*yq mod n
+
+    cp = q^(-1) mod p
+    cq = p^(-1) mod q
+
+    */
     mpz_init(n_square);
     mpz_pow_ui(n_square, kp->n, 2);
-
-    mpz_powm_sec(d1, c, kp->lambda, n_square);
-    mpz_sub_ui(d2, d1, 1);
-    mpz_div
-
-    //L(c^lambda mod n_square)*mi mod n
-    L = (x - 1)/n
     
-    mpz_out_str(stdout, 2, m);
-    printf("\n\n");
+    mpz_init(d1);
+    mpz_powm_sec(d1, *c, kp->lambda, n_square);
+    mpz_sub_ui(d1, d1, 1);
+    mpz_divexact(d1, d1, kp->n);
 
-    mpz_out_str(stdout, 2, c);
+    mpz_mul(d1, d1, kp->mi);
+    mpz_mod(d1, d1, kp->n);
+    
+    printf("Recovered messaged: ");
+    mpz_out_str(stdout, 16, d1);
     printf("\n\n");
-}*/
+}
