@@ -45,8 +45,8 @@ void generate_keys(struct key_pair *kp) {
     mpz_init(kp->lambda);
     mpz_init(kp->mi);
 
-    mpz_init2(p, PRIME_SIZE+1);
-    mpz_init2(q, PRIME_SIZE+1);
+    mpz_init2(p, PRIME_SIZE);
+    mpz_init2(q, PRIME_SIZE);
     mpz_init(max_num);
     mpz_ui_pow_ui(max_num, 2, 1536);
     mpz_sub_ui(max_num, max_num, 1);
@@ -70,7 +70,8 @@ void generate_keys(struct key_pair *kp) {
     // Generating "p"
     do {
         mpz_urandomb(p, state, PRIME_SIZE);
-        mpz_setbit(p, PRIME_SIZE - 1); // TODO -> Checar significancia dos bits
+        mpz_setbit(p, PRIME_SIZE - 1);
+        mpz_setbit(p, 0);
         if (mpz_probab_prime_p(p, 31) == 0) {  // Certainly not prime
             mpz_nextprime(p, p);  // TODO -> Check if I can call mpz_nextprime this way	
             // mpz_nextprime could generate a prime greather than 2^PRIME_SIZE - 1, that's why we don't "break"
@@ -83,6 +84,7 @@ void generate_keys(struct key_pair *kp) {
     do {
         mpz_urandomb(q, state, PRIME_SIZE);
         mpz_setbit(q, PRIME_SIZE - 1);
+        mpz_setbit(q, 0);
         if (mpz_probab_prime_p(q, 31) == 0) {  // Certainly not prime
             mpz_nextprime(q, q);  // TODO -> Check if I can call mpz_nextprime this way	
             // mpz_nextprime could generate a prime greather than 2^PRIME_SIZE - 1, that's why we don't "break"
