@@ -12,3 +12,4 @@ texto com sua chave pública e depois decifrá-lo com a chave privada. Assim con
 ./configure --prefix=${HOME}/gmp-mips-build --host=mips CC=/opt/mc723/tools/mips-newlib-elf/bin/mips-newlib-elf-gcc CFLAGS="-specs=archc"
 /opt/mc723/tools/mips-newlib-elf/bin/mips-newlib-elf-gcc -specs=archc -I${HOME}/gmp-mips-build paillier.c -o paillier -std=c99 -L${HOME}/gmp-mips-build/lib -lgmp
 
+export LD=/opt/mc723/tools/mips-newlib-elf/bin/mips-newlib-elf-ld
