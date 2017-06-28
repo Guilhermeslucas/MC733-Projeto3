@@ -7,6 +7,12 @@
 #include <gmp.h>
 //////////////////////////////////////////////////////////////////////////////
 
+/// Constants
+int baseAddress = 0x4000000;
+
+/// Value
+int value = 0;
+
 //Declaring structures
 struct key_pair {
     // Public key
@@ -112,12 +118,6 @@ void decrypt(mpz_t *c, struct key_pair *kp) {
     mpz_out_str(stdout, 16, d1);
     printf("\n\n");
 }
-
-/// Constants
-int baseAddress = 0x4000000;
-
-/// Value
-int value = 0;
 
 
 /// Constructor
