@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
     printf("%s\n", argv[1]);
     // if option == generate keys
     generate_keys(&kp);
+    // (guilherme: start working here)
     encrypt(argv[1], strlen(argv[1]), &kp, &c);
     decrypt(&c, &kp);
     return 0;
