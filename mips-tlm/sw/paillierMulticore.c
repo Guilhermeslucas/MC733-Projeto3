@@ -21,6 +21,10 @@ struct key_pair {
 
 volatile int *lock = (volatile int *) LOCKADDR;
 volatile int procCount = 0;
+int id = 0;
+int waitMainProc = 1;
+
+mpz_t p, q, max_num;
 
 void acquireLock() {
     while (*lock);
@@ -39,7 +43,6 @@ int main(int argc, char *argv[]) {
     // TODO -> Tratar entrada
     struct key_pair kp;
     mpz_t c;
-	int id = 0;
 
     printf("%s\n", argv[1]);
 
@@ -60,71 +63,67 @@ int main(int argc, char *argv[]) {
 // TODO -> p and q generation can be made in parallel
 void generate_keys(struct key_pair *kp) {
     int file;
-    unsigned long int seed;
-    mpz_t p, q, max_num;
-    gmp_randstate_t state;
-    
-    mpz_init(kp->n);
-    mpz_init(kp->g);
-    mpz_init(kp->lambda);
-    mpz_init(kp->mi);
+	unsigned long int seed;
+	gmp_randstate_t state;
 
-    mpz_init2(p, PRIME_SIZE);
-    mpz_init2(q, PRIME_SIZE);
-    mpz_init(max_num);
-    mpz_ui_pow_ui(max_num, 2, 1536);
-    mpz_sub_ui(max_num, max_num, 1);
+	mpz_init(kp->n);
+	mpz_init(kp->g);
+	mpz_init(kp->lambda);
+	mpz_init(kp->mi);
 
-    file = open("/dev/urandom", O_RDONLY);
-    if (file == -1) {
-        perror("Failed to open \"/dev/urandom\"");
-        exit(1);
-    }
-    
-    if (read(file, &seed, sizeof(unsigned long int)) == -1) {
-        perror("Failed to read random bytes");
-        exit(1);
-    }
+	if (id == 1) {
+		mpz_init2(p, PRIME_SIZE);
+		mpz_init2(q, PRIME_SIZE);
+		mpz_init(max_num);
+		mpz_ui_pow_ui(max_num, 2, 1536);
+		mpz_sub_ui(max_num, max_num, 1);
+		waitMainProc = 0;
+	} else while(waitMainProc);
+		
+	file = open("/dev/urandom", O_RDONLY);
+	if (file == -1) {
+		perror("Failed to open \"/dev/urandom\"");
+		exit(1);
+	}
+	
+	if (read(file, &seed, sizeof(unsigned long int)) == -1) {
+		perror("Failed to read random bytes");
+		exit(1);
+	}
 
-    close(file);
+	close(file);
+	
+	gmp_randinit_default(state);
+	gmp_randseed_ui(state, seed);
     
-    gmp_randinit_default(state);
-    gmp_randseed_ui(state, seed);
-    
-    // Generating "p"
+	mpz_t *val;
+	
+	if (id == 1) val = &p;
+	else if (id == 2) val = &q;
+
+    // Generate one prime
     do {
-        mpz_urandomb(p, state, PRIME_SIZE);
-        mpz_setbit(p, PRIME_SIZE - 1);
-        mpz_setbit(p, 0);
-        if (mpz_probab_prime_p(p, 31) == 0) {  // Certainly not prime
-            mpz_nextprime(p, p);  // TODO -> Check if I can call mpz_nextprime this way	
+        mpz_urandomb(*val, state, PRIME_SIZE);
+        mpz_setbit(*val, PRIME_SIZE - 1);
+        mpz_setbit(*val, 0);
+        if (mpz_probab_prime_p(*val, 31) == 0) {  // Certainly not prime
+            mpz_nextprime(*val, *val);  // TODO -> Check if I can call mpz_nextprime this way	
             // mpz_nextprime could generate a prime greather than 2^PRIME_SIZE - 1, that's why we don't "break"
         } else {  
             break; 
         }
-    } while (mpz_cmp(p, max_num) > 0);
-    
-    // Generating "q"
-    do {
-        mpz_urandomb(q, state, PRIME_SIZE);
-        mpz_setbit(q, PRIME_SIZE - 1);
-        mpz_setbit(q, 0);
-        if (mpz_probab_prime_p(q, 31) == 0) {  // Certainly not prime
-            mpz_nextprime(q, q);  // TODO -> Check if I can call mpz_nextprime this way	
-            // mpz_nextprime could generate a prime greather than 2^PRIME_SIZE - 1, that's why we don't "break"
-        } else {  
-            break;
-        }
-    } while (mpz_cmp(q, max_num) > 0);
+    } while (mpz_cmp(*val, max_num) > 0);
 
-    mpz_mul(kp->n, p, q);
-    mpz_add_ui(kp->g, kp->n, 1);
+	if (id == 1) {
+		mpz_mul(kp->n, p, q);
+		mpz_add_ui(kp->g, kp->n, 1);
 
-    mpz_sub_ui(p, p, 1);
-    mpz_sub_ui(q, q, 1);
-    mpz_mul(kp->lambda, p, q);
+		mpz_sub_ui(p, p, 1);
+		mpz_sub_ui(q, q, 1);
+		mpz_mul(kp->lambda, p, q);
 
-    mpz_invert(kp->mi, kp->lambda, kp->n);
+		mpz_invert(kp->mi, kp->lambda, kp->n);
+	}
 }
 
 void encrypt(char *buf, int buf_size, struct key_pair *kp, mpz_t *c) {

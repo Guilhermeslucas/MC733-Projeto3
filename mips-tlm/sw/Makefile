@@ -7,10 +7,10 @@ CC = mips-newlib-elf-gcc
 CFLAGS = -msoft-float -specs=archc
 LDFLAGS = -lm
 
-TARGET = hello_world.mips
+TARGET = paillierMulticore.mips
 INC_DIR := -I.
 
-SRCS := hello_world.c
+SRCS := paillierMulticore.c
 OBJS := $(SRCS:.c=.o)
 
 #------------------------------------------------------
