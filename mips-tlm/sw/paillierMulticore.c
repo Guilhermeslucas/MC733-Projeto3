@@ -19,6 +19,14 @@ struct key_pair {
     mpz_t mi;    
 };
 
+struct perInfos {
+    struct key_pair* kp;
+    char* buf;
+    int buf_size;
+    mpz_t* c;
+};
+
+
 volatile int *lock = (volatile int *) LOCKADDR;
 volatile int procCount = 0;
 int id = 0;
