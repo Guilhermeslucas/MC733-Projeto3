@@ -1,1 +1,1 @@
-../mpn/x86_64/coreisbr/rshift.asm
+../mpn/mips32/rshift.asm

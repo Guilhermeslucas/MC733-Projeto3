@@ -1,1 +1,1 @@
-../mpn/x86_64/coreihwl/aorsmul_1.asm
+../mpn/mips32/submul_1.asm

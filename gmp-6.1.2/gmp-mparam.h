@@ -1,1 +1,1 @@
-mpn/x86_64/coreihwl/gmp-mparam.h
+mpn/mips32/gmp-mparam.h

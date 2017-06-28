@@ -1,1 +1,1 @@
-../mpn/x86_64/coreihwl/mul_1.asm
+../mpn/mips32/mul_1.asm

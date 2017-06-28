@@ -37,7 +37,7 @@ see https://www.gnu.org/licenses/.
 
 /* The gmp-mparam.h file (a string) the tune program should suggest updating.
    */
-#define GMP_MPARAM_H_SUGGEST "./mpn/x86_64/coreihwl/gmp-mparam.h"
+#define GMP_MPARAM_H_SUGGEST "./mpn/mips32/gmp-mparam.h"
 
 /* Define to 1 if you have the `alarm' function. */
 #define HAVE_ALARM 1
@@ -67,13 +67,13 @@ see https://www.gnu.org/licenses/.
 
 /* Define to 1 if tests/libtests has calling conventions checking for the CPU
    */
-#define HAVE_CALLING_CONVENTIONS 1
+/* #undef HAVE_CALLING_CONVENTIONS */
 
 /* Define to 1 if you have the `clock' function. */
 #define HAVE_CLOCK 1
 
 /* Define to 1 if you have the `clock_gettime' function */
-#define HAVE_CLOCK_GETTIME 1
+/* #undef HAVE_CLOCK_GETTIME */
 
 /* Define to 1 if you have the `cputime' function. */
 /* #undef HAVE_CPUTIME */
@@ -92,11 +92,11 @@ see https://www.gnu.org/licenses/.
 
 /* Define to 1 if you have the declaration of `sys_errlist', and to 0 if you
    don't. */
-#define HAVE_DECL_SYS_ERRLIST 1
+#define HAVE_DECL_SYS_ERRLIST 0
 
 /* Define to 1 if you have the declaration of `sys_nerr', and to 0 if you
    don't. */
-#define HAVE_DECL_SYS_NERR 1
+#define HAVE_DECL_SYS_NERR 0
 
 /* Define to 1 if you have the declaration of `ungetc', and to 0 if you don't.
    */
@@ -107,15 +107,15 @@ see https://www.gnu.org/licenses/.
 #define HAVE_DECL_VFPRINTF 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
-#define HAVE_DLFCN_H 1
+/* #undef HAVE_DLFCN_H */
 
 /* Define one of the following to 1 for the format of a `double'.
    If your format is not among these choices, or you don't know what it is,
    then leave all undefined.
    IEEE_LITTLE_SWAPPED means little endian, but with the two 4-byte halves
    swapped, as used by ARM CPUs in little endian mode.  */
-/* #undef HAVE_DOUBLE_IEEE_BIG_ENDIAN */
-#define HAVE_DOUBLE_IEEE_LITTLE_ENDIAN 1
+#define HAVE_DOUBLE_IEEE_BIG_ENDIAN 1
+/* #undef HAVE_DOUBLE_IEEE_LITTLE_ENDIAN */
 /* #undef HAVE_DOUBLE_IEEE_LITTLE_SWAPPED */
 /* #undef HAVE_DOUBLE_VAX_D */
 /* #undef HAVE_DOUBLE_VAX_G */
@@ -131,13 +131,13 @@ see https://www.gnu.org/licenses/.
 #define HAVE_GETPAGESIZE 1
 
 /* Define to 1 if you have the `getrusage' function. */
-#define HAVE_GETRUSAGE 1
+/* #undef HAVE_GETRUSAGE */
 
 /* Define to 1 if you have the `getsysinfo' function. */
 /* #undef HAVE_GETSYSINFO */
 
 /* Define to 1 if you have the `gettimeofday' function. */
-#define HAVE_GETTIMEOFDAY 1
+/* #undef HAVE_GETTIMEOFDAY */
 
 /* Define to 1 if the compiler accepts gcc style __attribute__ ((visibility))
    and __attribute__ ((alias)) */
@@ -151,7 +151,7 @@ see https://www.gnu.org/licenses/.
 /* #undef HAVE_HOST_CPU_FAMILY_power */
 /* #undef HAVE_HOST_CPU_FAMILY_powerpc */
 /* #undef HAVE_HOST_CPU_FAMILY_x86 */
-#define HAVE_HOST_CPU_FAMILY_x86_64 1
+/* #undef HAVE_HOST_CPU_FAMILY_x86_64 */
 
 /* Define one of the following to 1 for the host CPU, as per the output of
    ./config.guess.  If your CPU is not listed here, leave all undefined.  */
@@ -203,8 +203,8 @@ see https://www.gnu.org/licenses/.
 /* Define one of these to 1 for the endianness of `mp_limb_t'.
    If the endianness is not a simple big or little, or you don't know what
    it is, then leave both undefined. */
-/* #undef HAVE_LIMB_BIG_ENDIAN */
-#define HAVE_LIMB_LITTLE_ENDIAN 1
+#define HAVE_LIMB_BIG_ENDIAN 1
+/* #undef HAVE_LIMB_LITTLE_ENDIAN */
 
 /* Define to 1 if you have the `localeconv' function. */
 #define HAVE_LOCALECONV 1
@@ -228,23 +228,23 @@ see https://www.gnu.org/licenses/.
 #define HAVE_MEMSET 1
 
 /* Define to 1 if you have the `mmap' function. */
-#define HAVE_MMAP 1
+/* #undef HAVE_MMAP */
 
 /* Define to 1 if you have the `mprotect' function. */
-#define HAVE_MPROTECT 1
+/* #undef HAVE_MPROTECT */
 
 /* Define to 1 each of the following for which a native (ie. CPU specific)
     implementation of the corresponding routine exists.  */
 #define HAVE_NATIVE_mpn_add_n 1
 /* #undef HAVE_NATIVE_mpn_add_n_sub_n */
-#define HAVE_NATIVE_mpn_add_nc 1
-#define HAVE_NATIVE_mpn_addaddmul_1msb0 1
-#define HAVE_NATIVE_mpn_addlsh1_n 1
-#define HAVE_NATIVE_mpn_addlsh2_n 1
-#define HAVE_NATIVE_mpn_addlsh_n 1
-#define HAVE_NATIVE_mpn_addlsh1_nc 1
-#define HAVE_NATIVE_mpn_addlsh2_nc 1
-#define HAVE_NATIVE_mpn_addlsh_nc 1
+/* #undef HAVE_NATIVE_mpn_add_nc */
+/* #undef HAVE_NATIVE_mpn_addaddmul_1msb0 */
+/* #undef HAVE_NATIVE_mpn_addlsh1_n */
+/* #undef HAVE_NATIVE_mpn_addlsh2_n */
+/* #undef HAVE_NATIVE_mpn_addlsh_n */
+/* #undef HAVE_NATIVE_mpn_addlsh1_nc */
+/* #undef HAVE_NATIVE_mpn_addlsh2_nc */
+/* #undef HAVE_NATIVE_mpn_addlsh_nc */
 /* #undef HAVE_NATIVE_mpn_addlsh1_n_ip1 */
 /* #undef HAVE_NATIVE_mpn_addlsh2_n_ip1 */
 /* #undef HAVE_NATIVE_mpn_addlsh_n_ip1 */
@@ -258,7 +258,7 @@ see https://www.gnu.org/licenses/.
 /* #undef HAVE_NATIVE_mpn_addlsh2_nc_ip2 */
 /* #undef HAVE_NATIVE_mpn_addlsh_nc_ip2 */
 /* #undef HAVE_NATIVE_mpn_addmul_1c */
-#define HAVE_NATIVE_mpn_addmul_2 1
+/* #undef HAVE_NATIVE_mpn_addmul_2 */
 /* #undef HAVE_NATIVE_mpn_addmul_3 */
 /* #undef HAVE_NATIVE_mpn_addmul_4 */
 /* #undef HAVE_NATIVE_mpn_addmul_5 */
@@ -266,73 +266,73 @@ see https://www.gnu.org/licenses/.
 /* #undef HAVE_NATIVE_mpn_addmul_7 */
 /* #undef HAVE_NATIVE_mpn_addmul_8 */
 /* #undef HAVE_NATIVE_mpn_addmul_2s */
-#define HAVE_NATIVE_mpn_and_n 1
-#define HAVE_NATIVE_mpn_andn_n 1
-#define HAVE_NATIVE_mpn_bdiv_dbm1c 1
-#define HAVE_NATIVE_mpn_bdiv_q_1 1
-#define HAVE_NATIVE_mpn_pi1_bdiv_q_1 1
-#define HAVE_NATIVE_mpn_cnd_add_n 1
-#define HAVE_NATIVE_mpn_cnd_sub_n 1
-#define HAVE_NATIVE_mpn_com 1
-#define HAVE_NATIVE_mpn_copyd 1
-#define HAVE_NATIVE_mpn_copyi 1
-#define HAVE_NATIVE_mpn_div_qr_1n_pi1 1
+/* #undef HAVE_NATIVE_mpn_and_n */
+/* #undef HAVE_NATIVE_mpn_andn_n */
+/* #undef HAVE_NATIVE_mpn_bdiv_dbm1c */
+/* #undef HAVE_NATIVE_mpn_bdiv_q_1 */
+/* #undef HAVE_NATIVE_mpn_pi1_bdiv_q_1 */
+/* #undef HAVE_NATIVE_mpn_cnd_add_n */
+/* #undef HAVE_NATIVE_mpn_cnd_sub_n */
+/* #undef HAVE_NATIVE_mpn_com */
+/* #undef HAVE_NATIVE_mpn_copyd */
+/* #undef HAVE_NATIVE_mpn_copyi */
+/* #undef HAVE_NATIVE_mpn_div_qr_1n_pi1 */
 /* #undef HAVE_NATIVE_mpn_div_qr_2 */
-#define HAVE_NATIVE_mpn_divexact_1 1
+/* #undef HAVE_NATIVE_mpn_divexact_1 */
 /* #undef HAVE_NATIVE_mpn_divexact_by3c */
-#define HAVE_NATIVE_mpn_divrem_1 1
+/* #undef HAVE_NATIVE_mpn_divrem_1 */
 /* #undef HAVE_NATIVE_mpn_divrem_1c */
-#define HAVE_NATIVE_mpn_divrem_2 1
-#define HAVE_NATIVE_mpn_gcd_1 1
-#define HAVE_NATIVE_mpn_hamdist 1
-#define HAVE_NATIVE_mpn_invert_limb 1
-#define HAVE_NATIVE_mpn_ior_n 1
-#define HAVE_NATIVE_mpn_iorn_n 1
+/* #undef HAVE_NATIVE_mpn_divrem_2 */
+/* #undef HAVE_NATIVE_mpn_gcd_1 */
+/* #undef HAVE_NATIVE_mpn_hamdist */
+/* #undef HAVE_NATIVE_mpn_invert_limb */
+/* #undef HAVE_NATIVE_mpn_ior_n */
+/* #undef HAVE_NATIVE_mpn_iorn_n */
 #define HAVE_NATIVE_mpn_lshift 1
-#define HAVE_NATIVE_mpn_lshiftc 1
+/* #undef HAVE_NATIVE_mpn_lshiftc */
 /* #undef HAVE_NATIVE_mpn_lshsub_n */
 /* #undef HAVE_NATIVE_mpn_mod_1 */
-#define HAVE_NATIVE_mpn_mod_1_1p 1
+/* #undef HAVE_NATIVE_mpn_mod_1_1p */
 /* #undef HAVE_NATIVE_mpn_mod_1c */
-#define HAVE_NATIVE_mpn_mod_1s_2p 1
-#define HAVE_NATIVE_mpn_mod_1s_4p 1
-#define HAVE_NATIVE_mpn_mod_34lsub1 1
-#define HAVE_NATIVE_mpn_modexact_1_odd 1
-#define HAVE_NATIVE_mpn_modexact_1c_odd 1
+/* #undef HAVE_NATIVE_mpn_mod_1s_2p */
+/* #undef HAVE_NATIVE_mpn_mod_1s_4p */
+/* #undef HAVE_NATIVE_mpn_mod_34lsub1 */
+/* #undef HAVE_NATIVE_mpn_modexact_1_odd */
+/* #undef HAVE_NATIVE_mpn_modexact_1c_odd */
 #define HAVE_NATIVE_mpn_mul_1 1
 /* #undef HAVE_NATIVE_mpn_mul_1c */
-#define HAVE_NATIVE_mpn_mul_2 1
+/* #undef HAVE_NATIVE_mpn_mul_2 */
 /* #undef HAVE_NATIVE_mpn_mul_3 */
 /* #undef HAVE_NATIVE_mpn_mul_4 */
 /* #undef HAVE_NATIVE_mpn_mul_5 */
 /* #undef HAVE_NATIVE_mpn_mul_6 */
-#define HAVE_NATIVE_mpn_mul_basecase 1
-#define HAVE_NATIVE_mpn_mullo_basecase 1
-#define HAVE_NATIVE_mpn_nand_n 1
-#define HAVE_NATIVE_mpn_nior_n 1
-#define HAVE_NATIVE_mpn_popcount 1
-#define HAVE_NATIVE_mpn_preinv_divrem_1 1
+/* #undef HAVE_NATIVE_mpn_mul_basecase */
+/* #undef HAVE_NATIVE_mpn_mullo_basecase */
+/* #undef HAVE_NATIVE_mpn_nand_n */
+/* #undef HAVE_NATIVE_mpn_nior_n */
+/* #undef HAVE_NATIVE_mpn_popcount */
+/* #undef HAVE_NATIVE_mpn_preinv_divrem_1 */
 /* #undef HAVE_NATIVE_mpn_preinv_mod_1 */
-#define HAVE_NATIVE_mpn_redc_1 1
+/* #undef HAVE_NATIVE_mpn_redc_1 */
 /* #undef HAVE_NATIVE_mpn_redc_2 */
-#define HAVE_NATIVE_mpn_rsblsh1_n 1
-#define HAVE_NATIVE_mpn_rsblsh2_n 1
-#define HAVE_NATIVE_mpn_rsblsh_n 1
-#define HAVE_NATIVE_mpn_rsblsh1_nc 1
+/* #undef HAVE_NATIVE_mpn_rsblsh1_n */
+/* #undef HAVE_NATIVE_mpn_rsblsh2_n */
+/* #undef HAVE_NATIVE_mpn_rsblsh_n */
+/* #undef HAVE_NATIVE_mpn_rsblsh1_nc */
 /* #undef HAVE_NATIVE_mpn_rsblsh2_nc */
 /* #undef HAVE_NATIVE_mpn_rsblsh_nc */
-#define HAVE_NATIVE_mpn_rsh1add_n 1
-#define HAVE_NATIVE_mpn_rsh1add_nc 1
-#define HAVE_NATIVE_mpn_rsh1sub_n 1
-#define HAVE_NATIVE_mpn_rsh1sub_nc 1
+/* #undef HAVE_NATIVE_mpn_rsh1add_n */
+/* #undef HAVE_NATIVE_mpn_rsh1add_nc */
+/* #undef HAVE_NATIVE_mpn_rsh1sub_n */
+/* #undef HAVE_NATIVE_mpn_rsh1sub_nc */
 #define HAVE_NATIVE_mpn_rshift 1
-#define HAVE_NATIVE_mpn_sqr_basecase 1
+/* #undef HAVE_NATIVE_mpn_sqr_basecase */
 /* #undef HAVE_NATIVE_mpn_sqr_diagonal */
-#define HAVE_NATIVE_mpn_sqr_diag_addlsh1 1
+/* #undef HAVE_NATIVE_mpn_sqr_diag_addlsh1 */
 #define HAVE_NATIVE_mpn_sub_n 1
-#define HAVE_NATIVE_mpn_sub_nc 1
-#define HAVE_NATIVE_mpn_sublsh1_n 1
-#define HAVE_NATIVE_mpn_sublsh2_n 1
+/* #undef HAVE_NATIVE_mpn_sub_nc */
+/* #undef HAVE_NATIVE_mpn_sublsh1_n */
+/* #undef HAVE_NATIVE_mpn_sublsh2_n */
 /* #undef HAVE_NATIVE_mpn_sublsh_n */
 /* #undef HAVE_NATIVE_mpn_sublsh1_nc */
 /* #undef HAVE_NATIVE_mpn_sublsh2_nc */
@@ -347,22 +347,22 @@ see https://www.gnu.org/licenses/.
 /* #undef HAVE_NATIVE_mpn_tabselect */
 /* #undef HAVE_NATIVE_mpn_udiv_qrnnd */
 /* #undef HAVE_NATIVE_mpn_udiv_qrnnd_r */
-/* #undef HAVE_NATIVE_mpn_umul_ppmm */
+#define HAVE_NATIVE_mpn_umul_ppmm 1
 /* #undef HAVE_NATIVE_mpn_umul_ppmm_r */
-#define HAVE_NATIVE_mpn_xor_n 1
-#define HAVE_NATIVE_mpn_xnor_n 1
+/* #undef HAVE_NATIVE_mpn_xor_n */
+/* #undef HAVE_NATIVE_mpn_xnor_n */
 
 /* Define to 1 if you have the `nl_langinfo' function. */
 #define HAVE_NL_LANGINFO 1
 
 /* Define to 1 if you have the <nl_types.h> header file. */
-#define HAVE_NL_TYPES_H 1
+/* #undef HAVE_NL_TYPES_H */
 
 /* Define to 1 if you have the `obstack_vprintf' function. */
-#define HAVE_OBSTACK_VPRINTF 1
+/* #undef HAVE_OBSTACK_VPRINTF */
 
 /* Define to 1 if you have the `popen' function. */
-#define HAVE_POPEN 1
+/* #undef HAVE_POPEN */
 
 /* Define to 1 if you have the `processor_info' function. */
 /* #undef HAVE_PROCESSOR_INFO */
@@ -378,7 +378,7 @@ see https://www.gnu.org/licenses/.
 #define HAVE_PTRDIFF_T 1
 
 /* Define to 1 if the system has the type `quad_t'. */
-#define HAVE_QUAD_T 1
+/* #undef HAVE_QUAD_T */
 
 /* Define to 1 if you have the `raise' function. */
 #define HAVE_RAISE 1
@@ -387,22 +387,22 @@ see https://www.gnu.org/licenses/.
 /* #undef HAVE_READ_REAL_TIME */
 
 /* Define to 1 if you have the `sigaction' function. */
-#define HAVE_SIGACTION 1
+/* #undef HAVE_SIGACTION */
 
 /* Define to 1 if you have the `sigaltstack' function. */
-#define HAVE_SIGALTSTACK 1
+/* #undef HAVE_SIGALTSTACK */
 
 /* Define to 1 if you have the `sigstack' function. */
-#define HAVE_SIGSTACK 1
+/* #undef HAVE_SIGSTACK */
 
 /* Tune directory speed_cyclecounter, undef=none, 1=32bits, 2=64bits) */
-#define HAVE_SPEED_CYCLECOUNTER 2
+/* #undef HAVE_SPEED_CYCLECOUNTER */
 
 /* Define to 1 if you have the <sstream> header file. */
 /* #undef HAVE_SSTREAM */
 
 /* Define to 1 if the system has the type `stack_t'. */
-#define HAVE_STACK_T 1
+/* #undef HAVE_STACK_T */
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -435,10 +435,10 @@ see https://www.gnu.org/licenses/.
 #define HAVE_STRTOUL 1
 
 /* Define to 1 if you have the `sysconf' function. */
-#define HAVE_SYSCONF 1
+/* #undef HAVE_SYSCONF */
 
 /* Define to 1 if you have the `sysctl' function. */
-#define HAVE_SYSCTL 1
+/* #undef HAVE_SYSCTL */
 
 /* Define to 1 if you have the `sysctlbyname' function. */
 /* #undef HAVE_SYSCTLBYNAME */
@@ -453,7 +453,7 @@ see https://www.gnu.org/licenses/.
 /* #undef HAVE_SYS_IOGRAPH_H */
 
 /* Define to 1 if you have the <sys/mman.h> header file. */
-#define HAVE_SYS_MMAN_H 1
+/* #undef HAVE_SYS_MMAN_H */
 
 /* Define to 1 if you have the <sys/param.h> header file. */
 #define HAVE_SYS_PARAM_H 1
@@ -471,10 +471,10 @@ see https://www.gnu.org/licenses/.
 #define HAVE_SYS_STAT_H 1
 
 /* Define to 1 if you have the <sys/sysctl.h> header file. */
-#define HAVE_SYS_SYSCTL_H 1
+/* #undef HAVE_SYS_SYSCTL_H */
 
 /* Define to 1 if you have the <sys/sysinfo.h> header file. */
-#define HAVE_SYS_SYSINFO_H 1
+/* #undef HAVE_SYS_SYSINFO_H */
 
 /* Define to 1 if you have the <sys/syssgi.h> header file. */
 /* #undef HAVE_SYS_SYSSGI_H */
@@ -540,19 +540,19 @@ see https://www.gnu.org/licenses/.
 #define RETSIGTYPE void
 
 /* The size of `mp_limb_t', as computed by sizeof. */
-#define SIZEOF_MP_LIMB_T 8
+#define SIZEOF_MP_LIMB_T 4
 
 /* The size of `unsigned', as computed by sizeof. */
 #define SIZEOF_UNSIGNED 4
 
 /* The size of `unsigned long', as computed by sizeof. */
-#define SIZEOF_UNSIGNED_LONG 8
+#define SIZEOF_UNSIGNED_LONG 4
 
 /* The size of `unsigned short', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_SHORT 2
 
 /* The size of `void *', as computed by sizeof. */
-#define SIZEOF_VOID_P 8
+#define SIZEOF_VOID_P 4
 
 /* Define to 1 if sscanf requires writable inputs */
 /* #undef SSCANF_WRITABLE_INPUT */
@@ -564,7 +564,7 @@ see https://www.gnu.org/licenses/.
 #define TIME_WITH_SYS_TIME 1
 
 /* Maximum size the tune program can test for SQR_TOOM2_THRESHOLD */
-/* #undef TUNE_SQR_TOOM2_MAX */
+#define TUNE_SQR_TOOM2_MAX SQR_TOOM2_MAX_GENERIC
 
 /* Version number of package */
 #define VERSION "6.1.2"

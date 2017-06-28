@@ -27,19 +27,19 @@ this program.  If not, see https://www.gnu.org/licenses/.  */
 #define HAVE_CPUTIME  0
 
 /* Define if you have the `getrusage' function. */
-#define HAVE_GETRUSAGE  1
+#define HAVE_GETRUSAGE  0
 
 /* Define if you have the `gettimeofday' function. */
-#define HAVE_GETTIMEOFDAY  1
+#define HAVE_GETTIMEOFDAY  0
 
 /* Define if you have the `sigaction' function. */
-#define HAVE_SIGACTION  1
+#define HAVE_SIGACTION  0
 
 /* Define if you have the `sigaltstack' function. */
-#define HAVE_SIGALTSTACK  1
+#define HAVE_SIGALTSTACK  0
 
 /* Define if you have the `sigstack' function. */
-#define HAVE_SIGSTACK  1
+#define HAVE_SIGSTACK  0
 
 /* Define if the system has the type `stack_t'. */
-#define HAVE_STACK_T  1
+#define HAVE_STACK_T  0

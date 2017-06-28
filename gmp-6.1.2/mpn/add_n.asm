@@ -1,1 +1,1 @@
-../mpn/x86_64/coreisbr/aors_n.asm
+../mpn/mips32/add_n.asm

@@ -1,2 +1,3 @@
-/* not sure that an empty file can compile, so put in a dummy */
-int sqr_basecase_dummy;
+#define TUNE_PROGRAM_BUILD 1
+#define TUNE_PROGRAM_BUILD_SQR 1
+#include "mpn/sqr_basecase.c"
