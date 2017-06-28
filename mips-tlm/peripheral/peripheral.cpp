@@ -24,6 +24,14 @@ struct key_pair {
     mpz_t mi;    
 };
 
+// Structure to send information to peripheral
+struct perInfos {
+    struct key_pair* kp;
+    char* buf;
+    int buf_size;
+    mpz_t* c;
+};
+
 ///Functions needed to encrypt and decrypt
 void encrypt(char *buf, int buf_size, struct key_pair *kp, mpz_t *c) {
     int file;
