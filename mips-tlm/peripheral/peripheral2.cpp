@@ -26,7 +26,7 @@ struct key_pair {
 
 // Structure to send information to peripheral
 struct perInfos {
-    struct key_pair* kp;
+    struct key_pair* key;
     char* buf;
     int buf_size;
     mpz_t* c;
@@ -151,7 +151,9 @@ ac_tlm_peripheral::~ac_tlm_peripheral() {
 */
 ac_tlm_rsp_status ac_tlm_peripheral::writem( const uint32_t &a , const uint32_t &d )
 {
-  value = d;
+  //value = d;
+  encrypt(d->buf, d->buf_size, d->kp, d->c);
+  decrypt(d->c, d->kp);
   return SUCCESS;
 }
 

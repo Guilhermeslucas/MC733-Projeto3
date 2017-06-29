@@ -1,6 +1,6 @@
 TARGET=platform
 EXE = $(TARGET).x
-SW = sw/hello_world.mips
+SW = sw/paillierMulticore.mips
 
 SRCS := main.cpp
 OBJS := $(SRCS:.cpp=.o)
