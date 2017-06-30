@@ -38,13 +38,11 @@ Foi executado todo o código do algoritmo de Paillier dentro do MIPS, com isso o
 Ao tentar executar o código, foram encontrados alguns problemas que não foram possíveis de serem resolvidos. Ao executar o simulador com 512MB de memória, ocorria um *overflow* na memória. Ao tentar subir esse valor para 1024MB, o *program counter* não conseguia acessar as posições de memória necessárias, dessa forma o código fica disponibilizado no diretório, no arquivo ```paillierMulticore.c```, apesar de não ter sido executado.
 
 ### Código acelerado com o periférico
-
-<!--Falar algo bonito-->
+Após realizar os testes com o periférico, notamos uma grande melhora nos resultados, pelo simples fato de alterar a arquitetura que esse código está rodando.
 
 | Tempo 	| Instruções |
 |:-------:|:----------:|
 | 0m1.458s| 		70		|
 
 ## Conclusões
-
-<!--O que dizer desse trabalho que bem conheço e odeio pacas?-->
+Esse projeto deixou claro como podemos melhorar muito o desempenho de programas criando periféricos específicos para uma função. Sabendo disso, existem vários hardwares feitos para tarefas muito específicas, como o que fizemos nesse projeto, encriptando e decriptando senhas, aumentando muito a segurança e rapidez de transações que necessitam desse tipo de operação.     Infelizmente, não conseguimos executar o código paralelo para coletar alguns resultados interessantes, devido a algumas limitações do simulador.
