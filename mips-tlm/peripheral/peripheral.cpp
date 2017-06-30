@@ -11,7 +11,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <gmp.h>
+#include "gmpxx.h"
+#include "gmp.h"
+
 #include <string.h>
 
 #define PRIME_SIZE 1536  // bits
