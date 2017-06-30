@@ -59,19 +59,18 @@ ac_tlm_peripheral::~ac_tlm_peripheral() {
 */
 ac_tlm_rsp_status ac_tlm_peripheral::writem( const uint32_t &a , const uint32_t &d )
 {
-    if (a == 67108872U) {
+    if (a == 536870912U) {
         value = d;
-    } else if (a == 67108872U + 4) {
+    } else if (a == 536870912U + 4) {
         struct key_pair kp;
         mpz_t c;
 
-        value = d;
-
-        printf("%s\n", (char *)d);
+        value = 1;
 
         generate_keys(&kp);
-        encrypt((char *)d, strlen((char*)d), &kp, &c);
+        encrypt("MC733\0", strlen("MC733\0"), &kp, &c);
         decrypt(&c, &kp);
+        value = 0;
     }
     
     return SUCCESS;
