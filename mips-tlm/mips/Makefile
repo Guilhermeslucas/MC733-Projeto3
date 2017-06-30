@@ -40,7 +40,7 @@ ACHEAD := $(TARGET)_parms.H $(TARGET)_arch.H $(TARGET)_arch_ref.H $(TARGET)_isa.
 
 # These are the library files provided by ArchC
 # They are stored in the archc/lib directory
-ACLIBFILES := ac_decoder_rt.o ac_module.o ac_mem.o ac_utils.o  ac_syscall.o ac_tlm_port.o 
+ACLIBFILES := ac_decoder_rt.o ac_module.o ac_mem.o ac_utils.o ac_hltrace.o ac_syscall.o ac_tlm_port.o 
 
 # These are the source files provided by the user + ArchC sources
 SRCS := main.cpp $(ACSRCS)  $(TARGET)_syscall.cpp

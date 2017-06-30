@@ -6,7 +6,6 @@ TARGET=peripheral
 
 SRCS := peripheral.cpp
 OBJS := $(SRCS:.cpp=.o)
-
 #------------------------------------------------------
 .SILENT:
 #------------------------------------------------------
@@ -23,7 +22,7 @@ clean:
 distclean: clean
 #------------------------------------------------------
 .cpp.o:
-	$(CC) $(CFLAGS) $(INC_DIR) -c $<
+	$(CC) $(CFLAGS) $(INC_DIR) -I/home/ec2014/ra155618/gmp/6.1.2/include/ -c $< -L/home/ec2014/ra155618/gmp/6.1.2/lib/ -lgmp -lgmpxx
 #------------------------------------------------------
 .cc.o:
-	$(CC) $(CFLAGS) $(INC_DIR) -c $<
+	$(CC) $(CFLAGS) $(INC_DIR) -I/home/ec2014/ra155618/gmp/6.1.2/include/ -c $< -L/home/ec2014/ra155618/gmp/6.1.2/lib/ -lgmp -lgmpxx

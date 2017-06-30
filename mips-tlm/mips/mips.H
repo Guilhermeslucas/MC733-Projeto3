@@ -20,6 +20,7 @@
 #include "systemc.h"
 #include "ac_module.H"
 #include "ac_utils.H"
+#include "ac_hltrace.H"
 #include "mips_arch.H"
 #include "mips_isa.H"
 #include "mips_syscall.H"
