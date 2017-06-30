@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-volatile int *lock = (volatile int *) 67108872U;
-volatile char* peripheral = (char *) 67108872U + 4; 
+volatile int *lock = (volatile int *) 536870912U;  
+volatile char* peripheral = (char *) 536870912U + 4; 
 
 void acquireLock() {
     while (*lock);
@@ -14,9 +14,7 @@ void releaseLock() {
 
 int main(int argc, char *argv[]){
     //escrita na variável lock
-    *peripheral =(char *)"MC733";
-    
-    acquireLock();
+    *peripheral =(char *)"MC733\0";
 
     exit(0);
     return 0; // Never executed, just for compatibility
