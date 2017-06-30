@@ -7,9 +7,11 @@ OBJS := $(SRCS:.cpp=.o)
 COMPONENTS := mips memory bus peripheral
 
 export INC_DIR := -I. `pkg-config --cflags systemc` `pkg-config --cflags archc` `pkg-config --cflags tlm` \
+						-I/home/ec2014/ra155618/gmp/6.1.2/include \
 						$(foreach c, $(COMPONENTS), -I $(c)) 
 
 export LIB_DIR := -L. `pkg-config --libs systemc`  \
+						-L/home/ec2014/ra155618/gmp/6.1.2/lib -lgmp -lgmpxx \
 						$(foreach c, $(COMPONENTS), -L $(c) -l$(c)) 
 						
 
