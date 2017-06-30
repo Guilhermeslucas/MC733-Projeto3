@@ -22,8 +22,7 @@ O código foi paralelizado com dois cores, para que cada um deles pudesse gerar 
 Foi feito um periférico para executar um lock, a fim de simplificar o uso de nas implementação multicore do projeto. O periférico é simples, cuja implementação já fora feita na atividade 4.
 
 ### Criptográfico
-
-<!--Encher linguiça-->
+Ao executar os testes de encriptação e desencriptação da chave **MC733**, notamos que esse processo era extremamente demorado, levando vários minutos para conseguir achar os dois primos necessários no processo, encriptar e desencriptar uma mensagem. Assim, partimos para a aceleração dessa parte do código. Como o código do periférico roda em **C++** que é uma linguagem conhecida por ser extremamente rápida, o programa rodou infinitamente mais rápido. Esse código era chamado a partir de uma escrita de memória no periférico, que disparava o código do acelerador.
 
 ## Resultados
 ### Execução base
