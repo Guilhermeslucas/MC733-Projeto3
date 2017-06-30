@@ -18,6 +18,9 @@
 
 #define PRIME_SIZE 1536  // bits
 
+/// Value
+int value = 0;
+
 struct key_pair {
     // Public key
     mpz_t g;
@@ -56,16 +59,22 @@ ac_tlm_peripheral::~ac_tlm_peripheral() {
 */
 ac_tlm_rsp_status ac_tlm_peripheral::writem( const uint32_t &a , const uint32_t &d )
 {
-  // cout << "addr: " << std::hex << a << ", data: " << d << endl;
-    struct key_pair kp;
-    mpz_t c;
-    printf("%s\n", (char *)d);
+    if (a == 67108872U) {
+        value = d;
+    } else if (a == 67108872U + 4) {
+        struct key_pair kp;
+        mpz_t c;
 
-    generate_keys(&kp);
-    encrypt((char *)d, strlen((char*)d), &kp, &c);
-    decrypt(&c, &kp);
+        value = d;
 
-  return SUCCESS;
+        printf("%s\n", (char *)d);
+
+        generate_keys(&kp);
+        encrypt((char *)d, strlen((char*)d), &kp, &c);
+        decrypt(&c, &kp);
+    }
+    
+    return SUCCESS;
 }
 
 /** Internal Read
@@ -76,11 +85,12 @@ ac_tlm_rsp_status ac_tlm_peripheral::writem( const uint32_t &a , const uint32_t 
 */
 ac_tlm_rsp_status ac_tlm_peripheral::readm( const uint32_t &a , uint32_t &d )
 {
-  //d = value;
-  //value = 1;
-  
-    
-  return SUCCESS;
+    if (a == 67108872U) {
+        d = value;
+        value = 1;
+    }
+
+    return SUCCESS;
 }
 
 
